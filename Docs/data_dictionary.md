@@ -135,10 +135,9 @@ enabling O(1) positional lookup without secondary index construction.
 | **Role** | Session Foreign Key |
 
 **Description:**  
-Cryptographic session-level identifier generated via MD5-seeded UUID
-construction, linking all turn records belonging to a single conversational
-session. Multiple `record_id` values may share a `session_id` when a
-conversation session is captured across multiple sequential turns.
+Session-level UUID identifier used to group records belonging to the
+same conversational session. Multiple records may share a session_id
+when they belong to the same multi-turn interaction.
 
 **Usage Notes:**
 - Group by `session_id` to reconstruct full multi-turn conversation
@@ -163,8 +162,8 @@ conversation session is captured across multiple sequential turns.
 
 **Description:**  
 UTC-normalized acquisition timestamp recording the wall-clock time at
-which the conversational turn was completed and flushed to the regional
-Kafka topic. Timestamps are nanosecond-precision as stored in the Parquet
+which the conversational turn was completed and Timestamp representing the completion time of the conversational event.
+Stored in UTC and normalized across all records. Timestamps are nanosecond-precision as stored in the Parquet
 file but reflect second-level acquisition granularity from the edge
 telemetry daemon.
 
@@ -625,17 +624,11 @@ asymmetric pragmatic analysis, and turn-level dialogue act labeling.
 | **Nullable** | No |
 
 **Description:**  
-Non-stationary conversational stress scalar derived from an AR(1)
-process approximating a squared-exponential kernel Gaussian Process
-(length scale ℓ=0.15, signal variance σ²=0.16). Encodes temporal
-autocorrelation in conversational friction levels — values near 1.0
-represent high-friction interaction contexts (deadline pressure,
-complaint resolution, escalation risk). Directly modulates Markov
-transition matrix weights toward `NEGATIVE_ESCALATION` state.
-
-**Technical Note:** The AR(1) coefficient φ = exp(−1/(2·N·ℓ²)) ensures
-matching autocorrelation structure to the target GP kernel at O(N) memory.
-Hurst exponent H ≈ 0.72 indicates persistent (trending) stress dynamics.
+Continuous conversational stress indicator ranging from 0.0 to 1.0.
+Higher values represent increased conversational tension, urgency,
+or friction. The feature is designed to capture evolving interaction
+difficulty across conversation turns and is associated with escalation
+risk and emotional intensity.
 
 ---
 
@@ -1078,8 +1071,7 @@ bilingual Hindi-English 4-gram Kneser-Ney smoothed reference model
 trained on 50M tokens of Hinglish web text. High perplexity values
 index novel code-switching constructs, heavy OOV token sequences, and
 structurally atypical utterances that expose gaps in current multilingual
-model architectures. Negatively correlated with `morpheme_binding_score`
-(ρ ≈ −0.38).
+model architectures. Negatively correlated with `morpheme_binding_score`.
 
 ---
 
@@ -1097,13 +1089,9 @@ model architectures. Negatively correlated with `morpheme_binding_score`
 | **Nullable** | No |
 
 **Description:**  
-Neural language model perplexity score computed via a fine-tuned
-multilingual transformer architecture (mBERT-family), capturing deep
-contextual surprisal as distinct from n-gram surface statistics.
-Enables direct benchmarking of corpus-trained models against established
-multilingual baselines. In v1.4.2-MLF, values are sourced from the same
-Gamma distribution as `perplexity_score`; future corpus versions will
-incorporate independently computed neural surprisal signals.
+Perplexity estimate representing contextual language-model uncertainty.
+Lower values indicate more predictable utterances, while higher values
+reflect linguistically novel, rare, or complex code-switching patterns.
 
 ---
 
@@ -1154,6 +1142,51 @@ for turn in record["turns"]:
 ```
 
 ---
+## DATASET COMPOSITION
+
+The HinglishCodeSwitch-Syntax (HCSS) corpus is a large-scale multilingual
+conversational dataset designed to represent realistic Hindi-English
+code-switched communication patterns commonly observed across digital
+communication platforms.
+
+The dataset contains 1,000,000 conversational records distributed across
+multiple communication domains including professional collaboration,
+academic discussions, customer support interactions, financial services,
+healthcare administration, startup operations, government services, and
+informal social communication.
+
+Each record represents a conversational event enriched with linguistic,
+behavioral, demographic, temporal, and conversational-state metadata.
+
+The corpus captures several forms of code-switching behavior:
+
+- Lexical insertion of English terms into Hindi sentence structures
+- Hindi lexical insertions within English sentence structures
+- Clause-level language alternation
+- Morpheme-level language mixing
+- Script switching between Romanized Hindi and Devanagari
+- Register adaptation across formal and informal contexts
+
+Conversation sessions range from short transactional exchanges to
+extended multi-turn discussions. Session lengths vary from 2 to 17
+turns, with an average of approximately 9–10 conversational turns.
+
+The dataset additionally includes behavioral and interaction signals
+such as response latency, typing speed, editing behavior, sentiment,
+formality, politeness, and conversational progression states.
+
+HCSS is intended for research and development in:
+
+- Code-switching analysis
+- Multilingual NLP
+- Conversational AI
+- Dialogue state tracking
+- Sentiment analysis
+- Register prediction
+- Sociolinguistic modeling
+- Language identification
+- Sequence modeling
+- Human-computer interaction research
 
 ## 11. ENUMERATION REFERENCE TABLES
 
@@ -1267,9 +1300,8 @@ to the following schema:
 
 ## 13. CORRELATION STRUCTURE REFERENCE
 
-The following empirically-validated pairwise Spearman rank correlations
-are preserved in the corpus through the 20×20 Cholesky-decomposed
-correlation matrix:
+The following Observed feature relationships
+are preserved in the corpus shows a positive relationship:
 
 | Feature A | Feature B | Expected ρ | Direction | Mechanism |
 |-----------|-----------|-----------|-----------|-----------|
