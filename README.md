@@ -28,6 +28,10 @@ The dataset captures conversational patterns where Hindi and English are natural
 The corpus contains rich linguistic, conversational, behavioral, and contextual features suitable for training and evaluating modern multilingual AI systems.
 
 ---
+# Dataset Overview
+<img width="1122" height="790" alt="feature_correlation_matrix" src="https://github.com/user-attachments/assets/1373ff0b-57c3-4817-b666-ffa9cb0eb662" />
+
+---
 
 # Dataset Statistics
 
