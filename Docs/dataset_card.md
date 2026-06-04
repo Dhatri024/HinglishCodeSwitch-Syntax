@@ -169,25 +169,44 @@ HinglishCodeSwitch-Syntax/
 │
 ├── Data/
 │   ├── Raw/
+│   │   └── HinglishCodeSwitch_Syntax_v1_raw.parquet
+│   │
 │   └── Splits/
+│       ├── hinglish_codeswitch_v1_train.parquet
+│       ├── hinglish_codeswitch_v1_val.parquet
+│       └── hinglish_codeswitch_v1_test.parquet
 │
 ├── Docs/
-│   ├── dataset_card.md
 │   ├── data_dictionary.md
-│   ├── methodology.md
-│   └── limitations.md
+│   ├── dataset_card.md
+│   ├── limitations.md
+│   └── methodology.md
 │
 ├── Plots/
+│   ├── conversation_distribution.png
+│   ├── device_distribution.png
+│   ├── domain_distribution.png
+│   ├── emotional_distribution.png
+│   ├── feature_correlation_matrix.png
+│   ├── hindi_code_switch.png
+│   ├── language_distribution.png
+│   ├── morpheme_binding.png
+│   ├── response_distribution.png
+│   ├── syntax_fluency.png
+│   ├── token_distribution.png
+│   └── top_geo_states.png
 │
 ├── Schema/
+│   └── hinglish_codeswitch_v1_schema.json
 │
 ├── notebooks/
 │   ├── Hinglish.ipynb
 │   └── hinglish.py
 │
+├── LICENSE
 ├── README.md
-├── .gitignore
-└── .gitattributes
+├── .gitattributes
+└── .gitignore
 ```
 
 ---
