@@ -1,5 +1,8 @@
 # HinglishCodeSwitch-Syntax
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.20814229.svg)](https://doi.org/10.5281/zenodo.20814229)
+
+Dataset DOI: https://doi.org/10.5281/zenodo.20814229
 ## A High-Fidelity Hinglish Code-Switching Conversational Dataset
 
 **Schema Version:** v1.4.2-MLF
