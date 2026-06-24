@@ -338,3 +338,11 @@ for full details.
 ## Acknowledgements
 
 This project was created to support research and development in multilingual conversational AI and code-switching language technologies.
+
+---
+
+## Copyright
+
+© 2026 AtlasAILabs. All rights reserved.
+
+HinglishCodeSwitch-Syntax is a research and development initiative by AtlasAILabs. The dataset architecture, documentation, schema design, analytical workflows, and associated assets contained in this repository are owned by AtlasAILabs. Unauthorized reproduction, redistribution, or commercial exploitation of this work without prior permission is prohibited. Appropriate attribution must be provided when referencing this project in research, publications, or derivative works.
